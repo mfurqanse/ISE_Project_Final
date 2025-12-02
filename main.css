@@ -1,0 +1,329 @@
+/* ==========================================
+   GLOBAL STYLES & VARIABLES
+   ========================================== */
+
+:root {
+    /* Colors */
+    --admin-color: #2196F3;
+    --teacher-color: #4CAF50;
+    --student-color: #FF9800;
+    --danger-color: #F44336;
+    --success-color: #4CAF50;
+    --warning-color: #FF9800;
+    --info-color: #2196F3;
+    
+    /* Neutrals */
+    --text-primary: #212121;
+    --text-secondary: #757575;
+    --text-muted: #9E9E9E;
+    --border-color: #E0E0E0;
+    --bg-light: #F5F5F5;
+    --bg-white: #FFFFFF;
+    
+    /* Spacing */
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    
+    /* Border Radius */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.15);
+    
+    /* Transitions */
+    --transition-fast: 150ms ease-in-out;
+    --transition-normal: 250ms ease-in-out;
+}
+
+/* Reset & Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text-primary);
+    background-color: var(--bg-light);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: var(--spacing-md);
+    color: var(--text-primary);
+}
+
+h1 {
+    font-size: 2rem;
+}
+
+h2 {
+    font-size: 1.5rem;
+}
+
+h3 {
+    font-size: 1.25rem;
+}
+
+h4 {
+    font-size: 1.125rem;
+}
+
+p {
+    margin-bottom: var(--spacing-md);
+}
+
+.subtitle {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    margin: 0;
+}
+
+.main-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-md);
+}
+
+/* Links */
+a {
+    color: var(--admin-color);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+a:hover {
+    color: #1976D2;
+}
+
+/* SVG Icons */
+svg {
+    width: 24px;
+    height: 24px;
+    stroke-width: 2;
+    fill: none;
+    stroke: currentColor;
+}
+
+/* Utility Classes */
+.text-center {
+    text-align: center;
+}
+
+.text-success {
+    color: var(--success-color);
+}
+
+.text-danger {
+    color: var(--danger-color);
+}
+
+.text-warning {
+    color: var(--warning-color);
+}
+
+.w-full {
+    width: 100%;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Layout Containers */
+.landing-container,
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-lg);
+    background: linear-gradient(135deg, rgba(33, 150, 243, 0.1) 0%, rgba(76, 175, 80, 0.1) 100%);
+}
+
+.landing-content,
+.login-content {
+    max-width: 1200px;
+    width: 100%;
+}
+
+.login-content {
+    max-width: 450px;
+}
+
+/* Header Section */
+.header-section {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+}
+
+.icon-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: var(--spacing-lg);
+}
+
+.icon-large {
+    width: 64px;
+    height: 64px;
+    color: var(--admin-color);
+}
+
+/* Role Selection Grid */
+.role-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+}
+
+/* Demo Credentials */
+.demo-credentials {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    padding: var(--spacing-lg);
+    background: var(--bg-white);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+}
+
+.demo-credentials strong {
+    color: var(--text-primary);
+    display: block;
+    margin-bottom: var(--spacing-sm);
+}
+
+/* Login Specific */
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 0.875rem;
+    padding: var(--spacing-sm);
+    margin-bottom: var(--spacing-lg);
+    transition: color var(--transition-fast);
+}
+
+.btn-back:hover {
+    color: var(--text-primary);
+}
+
+.btn-back svg {
+    width: 16px;
+    height: 16px;
+    margin-right: var(--spacing-sm);
+}
+
+.login-card {
+    background: var(--bg-white);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    box-shadow: var(--shadow-md);
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+}
+
+.demo-account {
+    margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+.demo-account strong {
+    color: var(--text-primary);
+}
+
+/* Toast Notifications */
+.toast {
+    position: fixed;
+    bottom: var(--spacing-lg);
+    right: var(--spacing-lg);
+    background: var(--text-primary);
+    color: white;
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    opacity: 0;
+    transform: translateY(100px);
+    transition: all var(--transition-normal);
+    z-index: 10000;
+    max-width: 400px;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.toast.success {
+    background: var(--success-color);
+}
+
+.toast.error {
+    background: var(--danger-color);
+}
+
+.toast.warning {
+    background: var(--warning-color);
+}
+
+/* Loading States */
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-light);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: var(--radius-sm);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}

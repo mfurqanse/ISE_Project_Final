@@ -1,0 +1,541 @@
+/* ==========================================
+   DASHBOARD LAYOUT & STYLES
+   ========================================== */
+
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+    background-color: var(--bg-light);
+}
+
+/* Sidebar */
+.sidebar {
+    width: 260px;
+    background: var(--bg-white);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.sidebar-header {
+    padding: var(--spacing-lg);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    font-weight: 600;
+    font-size: 1.125rem;
+    color: var(--text-primary);
+}
+
+.logo svg {
+    width: 32px;
+    height: 32px;
+}
+
+.admin-sidebar .logo svg {
+    color: var(--admin-color);
+}
+
+.teacher-sidebar .logo svg {
+    color: var(--teacher-color);
+}
+
+.student-sidebar .logo svg {
+    color: var(--student-color);
+}
+
+/* Sidebar Navigation */
+.sidebar-nav {
+    flex: 1;
+    padding: var(--spacing-md) 0;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md) var(--spacing-lg);
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    margin: 0 var(--spacing-md);
+    border-radius: var(--radius-md);
+}
+
+.nav-item:hover {
+    background-color: var(--bg-light);
+    color: var(--text-primary);
+}
+
+.nav-item.active {
+    background-color: rgba(33, 150, 243, 0.1);
+    color: var(--admin-color);
+    font-weight: 500;
+}
+
+.teacher-sidebar .nav-item.active {
+    background-color: rgba(76, 175, 80, 0.1);
+    color: var(--teacher-color);
+}
+
+.student-sidebar .nav-item.active {
+    background-color: rgba(255, 152, 0, 0.1);
+    color: var(--student-color);
+}
+
+.nav-item svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Sidebar Footer */
+.sidebar-footer {
+    padding: var(--spacing-lg);
+    border-top: 1px solid var(--border-color);
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    margin-left: 260px;
+    padding: var(--spacing-lg);
+}
+
+/* Page Header */
+.page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-xl);
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+}
+
+.page-header h1 {
+    margin: 0;
+    font-size: 1.75rem;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: var(--bg-white);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+}
+
+.user-profile span {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+/* Dashboard Content */
+.dashboard-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+/* Statistics Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.stat-card {
+    background: var(--bg-white);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    gap: var(--spacing-md);
+}
+
+.stat-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.stat-icon svg {
+    width: 28px;
+    height: 28px;
+    stroke: white;
+}
+
+.admin-bg {
+    background-color: var(--admin-color);
+}
+
+.teacher-bg {
+    background-color: var(--teacher-color);
+}
+
+.student-bg {
+    background-color: var(--student-color);
+}
+
+.stat-details {
+    flex: 1;
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1;
+}
+
+.stat-change {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: var(--spacing-xs);
+}
+
+.stat-change.positive {
+    color: var(--success-color);
+}
+
+.stat-change.negative {
+    color: var(--danger-color);
+}
+
+/* Content Grid */
+.content-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+/* Info Card (Student Dashboard) */
+.info-card {
+    background: var(--bg-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: var(--spacing-lg);
+}
+
+.info-header {
+    padding: var(--spacing-lg);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.info-header h3 {
+    margin: 0;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-lg);
+    padding: var(--spacing-lg);
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.info-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.info-value {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* Course Cards */
+.courses-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.course-card {
+    padding: var(--spacing-md);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+}
+
+.course-card:hover {
+    box-shadow: var(--shadow-sm);
+    border-color: var(--admin-color);
+}
+
+.course-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-sm);
+}
+
+.course-header h4 {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.course-description {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-md);
+}
+
+.course-footer {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+/* Attendance Course Card */
+.attendance-course-card {
+    background: var(--bg-white);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
+}
+
+.attendance-percentage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    background: var(--bg-light);
+}
+
+.attendance-percentage.good {
+    background-color: rgba(76, 175, 80, 0.1);
+    color: var(--success-color);
+}
+
+.attendance-percentage.warning {
+    background-color: rgba(244, 67, 54, 0.1);
+    color: var(--danger-color);
+}
+
+.percentage-value {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.percentage-label {
+    font-size: 0.75rem;
+    margin-top: var(--spacing-xs);
+}
+
+.attendance-breakdown {
+    display: flex;
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-md);
+}
+
+.breakdown-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-size: 0.875rem;
+}
+
+.status-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.status-dot.present {
+    background-color: var(--success-color);
+}
+
+.status-dot.late {
+    background-color: var(--warning-color);
+}
+
+.status-dot.absent {
+    background-color: var(--danger-color);
+}
+
+.warning-message {
+    margin-top: var(--spacing-md);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background-color: rgba(244, 67, 54, 0.1);
+    color: var(--danger-color);
+    border-radius: var(--radius-sm);
+    font-size: 0.875rem;
+}
+
+/* Course Grade Display */
+.course-grade-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+.grade-large {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+}
+
+.grade-percentage {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+/* Grade Distribution */
+.grade-bars {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.grade-bar-item {
+    display: grid;
+    grid-template-columns: 40px 1fr 40px;
+    gap: var(--spacing-md);
+    align-items: center;
+}
+
+.grade-bar-label {
+    font-weight: 600;
+    font-size: 1.125rem;
+}
+
+.grade-bar-container {
+    background: var(--bg-light);
+    border-radius: var(--radius-sm);
+    height: 32px;
+    overflow: hidden;
+}
+
+.grade-bar {
+    height: 100%;
+    border-radius: var(--radius-sm);
+    transition: width var(--transition-normal);
+}
+
+.grade-bar.grade-A {
+    background-color: var(--success-color);
+}
+
+.grade-bar.grade-B {
+    background-color: var(--admin-color);
+}
+
+.grade-bar.grade-C {
+    background-color: var(--warning-color);
+}
+
+.grade-bar.grade-D {
+    background-color: #FFC107;
+}
+
+.grade-bar.grade-F {
+    background-color: var(--danger-color);
+}
+
+.grade-bar-count {
+    text-align: right;
+    font-weight: 600;
+}
+
+/* Attendance Table Specific */
+.attendance-table .btn-status {
+    padding: 6px 12px;
+    font-size: 0.75rem;
+    border: 1px solid var(--border-color);
+    background: white;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.attendance-table .btn-status:hover {
+    background: var(--bg-light);
+}
+
+.attendance-table .btn-status.active {
+    font-weight: 600;
+}
+
+.btn-present.active {
+    background-color: var(--success-color);
+    color: white;
+    border-color: var(--success-color);
+}
+
+.btn-absent.active {
+    background-color: var(--danger-color);
+    color: white;
+    border-color: var(--danger-color);
+}
+
+.btn-late.active {
+    background-color: var(--warning-color);
+    color: white;
+    border-color: var(--warning-color);
+}
+
+.attendance-buttons {
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+/* Marks Table Specific */
+.marks-table .marks-input {
+    width: 80px;
+    padding: 6px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 0.875rem;
+}
+
+.marks-table .max-marks {
+    margin-left: var(--spacing-sm);
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+
+.assessment-info {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}

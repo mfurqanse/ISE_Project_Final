@@ -1,0 +1,24 @@
+[
+  {
+    "id": "course-1",
+    "code": "CS101",
+    "name": "Introduction to Programming",
+    "description": "Learn the fundamentals of programming using Python",
+    "credits": 3,
+    "teacherId": "teacher-1",
+    "semester": "Fall",
+    "academicYear": "2024-2025",
+    "createdAt": "2024-08-01T00:00:00.000Z"
+  },
+  {
+    "id": "course-2",
+    "code": "CS201",
+    "name": "Data Structures and Algorithms",
+    "description": "Advanced data structures and algorithm design",
+    "credits": 4,
+    "teacherId": "teacher-1",
+    "semester": "Fall",
+    "academicYear": "2024-2025",
+    "createdAt": "2024-08-01T00:00:00.000Z"
+  }
+]

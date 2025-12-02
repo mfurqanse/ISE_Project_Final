@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - University Portal</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar admin-sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                        <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                    </svg>
+                    <span>Admin Portal</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="admin-dashboard.html" class="nav-item active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                    </svg>
+                    <span>Dashboard</span>
+                </a>
+                <a href="user-management.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        ircle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                    <span>User Management</span>
+                </a>
+                <a href="course-management.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                    </svg>
+                    <span>Course Management</span>
+                </a>
+                <a href="system-settings.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        ircle cx="12" cy="12" r="3"></circle>
+                        <path d="M12 1v6m0 6v6m5.66-13.66l-4.24 4.24m0 6l4.24 4.24M1 12h6m6 0h6m-13.66 5.66l4.24-4.24m0-6l-4.24-4.24"></path>
+                    </svg>
+                    <span>System Settings</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="btn btn-logout" onclick="logout()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                    Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <div>
+                    <h1>Administrator Dashboard</h1>
+                    <p class="subtitle">Welcome back, <span id="admin-name">Admin</span></p>
+                </div>
+                <div class="header-actions">
+                    <div class="user-profile">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width: 20px; height: 20px;">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            ircle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        <span id="admin-email">admin@university.edu</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-content">
+                <!-- Statistics Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon admin-bg">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                ircle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                        </div>
+                        <div class="stat-details">
+                            <p class="stat-label">Total Admins</p>
+                            <h3 class="stat-value" id="total-admins">0</h3>
+                            <p class="stat-change">System administrators</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon teacher-bg">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                            </svg>
+                        </div>
+                        <div class="stat-details">
+                            <p class="stat-label">Total Teachers</p>
+                            <h3 class="stat-value" id="total-teachers">0</h3>
+                            <p class="stat-change">Active faculty</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon student-bg">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                                <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                            </svg>
+                        </div>
+                        <div class="stat-details">
+                            <p class="stat-label">Total Students</p>
+                            <h3 class="stat-value" id="total-students">0</h3>
+                            <p class="stat-change">Enrolled students</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon admin-bg">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                            </svg>
+                        </div>
+                        <div class="stat-details">
+                            <p class="stat-label">Total Courses</p>
+                            <h3 class="stat-value" id="total-courses">0</h3>
+                            <p class="stat-change">Active courses</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Quick Actions</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="quick-actions">
+                            <a href="user-management.html" class="action-card">
+                                <div class="action-icon admin-bg">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                        ircle cx="8.5" cy="7" r="4"></circle>
+                                        <line x1="20" y1="8" x2="20" y2="14"></line>
+                                        <line x1="23" y1="11" x2="17" y2="11"></line>
+                                    </svg>
+                                </div>
+                                <h4>Add New User</h4>
+                                <p>Create admin, teacher, or student account</p>
+                            </a>
+
+                            <a href="course-management.html" class="action-card">
+                                <div class="action-icon teacher-bg">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                                    </svg>
+                                </div>
+                                <h4>Manage Courses</h4>
+                                <p>Add, edit, or remove courses</p>
+                            </a>
+
+                            <a href="system-settings.html" class="action-card">
+                                <div class="action-icon student-bg">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        ircle cx="12" cy="12" r="3"></circle>
+                                        <path d="M12 1v6m0 6v6m5.66-13.66l-4.24 4.24m0 6l4.24 4.24M1 12h6m6 0h6m-13.66 5.66l4.24-4.24m0-6l-4.24-4.24"></path>
+                                    </svg>
+                                </div>
+                                <h4>System Settings</h4>
+                                <p>Configure system parameters</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Users -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Recent Users</h3>
+                        <a href="user-management.html" class="btn btn-secondary btn-sm">View All</a>
+                    </div>
+                    <div class="card-body">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recent-users">
+                                <tr>
+                                    <td colspan="4" class="text-center">Loading...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- System Overview -->
+                <div class="content-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Course Distribution</h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="course-distribution">
+                                <div class="stat-item">
+                                    <span class="stat-label">Fall Semester</span>
+                                    <span class="stat-value" id="fall-courses">0</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Spring Semester</span>
+                                    <span class="stat-value" id="spring-courses">0</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Summer Semester</span>
+                                    <span class="stat-value" id="summer-courses">0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>System Health</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="health-status">
+                                <div class="health-item">
+                                    <span class="health-label">Database</span>
+                                    <span class="badge badge-success">Operational</span>
+                                </div>
+                                <div class="health-item">
+                                    <span class="health-label">User Sessions</span>
+                                    <span class="badge badge-success">Active</span>
+                                </div>
+                                <div class="health-item">
+                                    <span class="health-label">Data Sync</span>
+                                    <span class="badge badge-success">Synced</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../data/mock-data.js"></script>
+    <script src="../js/storage.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/ui.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check authentication
+            checkAuth('admin');
+            
+            // Load dashboard data
+            loadDashboardData();
+        });
+
+        function loadDashboardData() {
+            const data = loadMockData();
+            const currentUser = getCurrentUser();
+
+            // Update user info
+            if (currentUser) {
+                document.getElementById('admin-name').textContent = currentUser.firstName + ' ' + currentUser.lastName;
+                document.getElementById('admin-email').textContent = currentUser.email;
+            }
+
+            // Count users by role
+            const admins = data.users.filter(u => u.role === 'admin');
+            const teachers = data.users.filter(u => u.role === 'teacher');
+            const students = data.users.filter(u => u.role === 'student');
+
+            // Update statistics
+            document.getElementById('total-admins').textContent = admins.length;
+            document.getElementById('total-teachers').textContent = teachers.length;
+            document.getElementById('total-students').textContent = students.length;
+            document.getElementById('total-courses').textContent = data.courses.length;
+
+            // Update course distribution
+            const fallCourses = data.courses.filter(c => c.semester === 'Fall').length;
+            const springCourses = data.courses.filter(c => c.semester === 'Spring').length;
+            const summerCourses = data.courses.filter(c => c.semester === 'Summer').length;
+
+            document.getElementById('fall-courses').textContent = fallCourses;
+            document.getElementById('spring-courses').textContent = springCourses;
+            document.getElementById('summer-courses').textContent = summerCourses;
+
+            // Load recent users (last 5)
+            loadRecentUsers(data.users);
+        }
+
+        function loadRecentUsers(users) {
+            const tbody = document.getElementById('recent-users');
+            tbody.innerHTML = '';
+
+            const recentUsers = users.slice(-5).reverse(); // Get last 5 users
+
+            if (recentUsers.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" class="text-center">No users found</td></tr>';
+                return;
+            }
+
+            recentUsers.forEach(user => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${user.firstName} ${user.lastName}</td>
+                    <td>${user.email}</td>
+                    <td><span class="badge badge-${user.role}">${capitalizeFirst(user.role)}</span></td>
+                    <td><span class="status-badge active">Active</span></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('currentUser');
+                window.location.href = '../index.html';
+            }
+        }
+    </script>
+
+    <style>
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .action-card {
+            padding: var(--spacing-lg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all var(--transition-fast);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .action-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+            border-color: var(--admin-color);
+        }
+
+        .action-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .action-icon svg {
+            width: 32px;
+            height: 32px;
+            stroke: white;
+        }
+
+        .action-card h4 {
+            margin: 0 0 var(--spacing-sm) 0;
+            font-size: 1.125rem;
+        }
+
+        .action-card p {
+            margin: 0;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .stat-item:last-child {
+            border-bottom: none;
+        }
+
+        .stat-item .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .stat-item .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .health-status {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+
+        .health-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-md);
+            background: var(--bg-light);
+            border-radius: var(--radius-md);
+        }
+
+        .health-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+    </style>
+</body>
+</html>

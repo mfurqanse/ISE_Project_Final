@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Reports - Teacher Portal</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar (same as mark-attendance.html) -->
+        <aside class="sidebar teacher-sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                    </svg>
+                    <span>Teacher Portal</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="teacher-dashboard.html" class="nav-item">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    <span>Dashboard</span>
+                </a>
+                <a href="mark-attendance.html" class="nav-item">
+                    <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <span>Mark Attendance</span>
+                </a>
+                <a href="upload-marks.html" class="nav-item">
+                    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                    <span>Upload Marks</span>
+                </a>
+                <a href="view-reports.html" class="nav-item active">
+                    <svg viewBox="0 0 24 24"><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line></svg>
+                    <span>View Reports</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="btn btn-logout" onclick="logout()">
+                    <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                    Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <div>
+                    <h1>Reports & Analytics</h1>
+                    <p class="subtitle">View detailed reports for your courses</p>
+                </div>
+            </div>
+
+            <div class="dashboard-content">
+                <!-- Course Selection -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Select Course</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <select id="course-select" class="form-select" onchange="loadCourseReport()">
+                                <option value="">Select a course</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course Report -->
+                <div id="course-report" style="display: none;">
+                    <!-- Overview Stats -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon teacher-bg">
+                                <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>ircle cx="9" cy="7" r="4"></circle></svg>
+                            </div>
+                            <div class="stat-details">
+                                <p class="stat-label">Enrolled Students</p>
+                                <h3 class="stat-value" id="enrolled-count">0</h3>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon admin-bg">
+                                <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                            </div>
+                            <div class="stat-details">
+                                <p class="stat-label">Avg Attendance</p>
+                                <h3 class="stat-value" id="avg-attendance-report">0%</h3>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon student-bg">
+                                <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="stat-details">
+                                <p class="stat-label">Avg Grade</p>
+                                <h3 class="stat-value" id="avg-grade-report">-</h3>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon teacher-bg">
+                                <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                            </div>
+                            <div class="stat-details">
+                                <p class="stat-label">Pass Rate</p>
+                                <h3 class="stat-value" id="pass-rate">0%</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Student Performance Table -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Student Performance</h3>
+                            <button class="btn btn-secondary" onclick="exportReport()">Export Report</button>
+                        </div>
+                        <div class="card-body">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Student ID</th>
+                                        <th>Name</th>
+                                        <th>Attendance</th>
+                                        <th>Avg Grade</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="student-performance">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Grade Distribution -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Grade Distribution</h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="grade-distribution"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../data/mock-data.js"></script>
+    <script src="../js/storage.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/attendance.js"></script>
+    <script src="../js/gradeCalculator.js"></script>
+    <script src="../js/ui.js"></script>
+    <script src="../js/utils.js"></script>
+    <script>
+        let currentCourseId = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth('teacher');
+            loadTeacherCourses();
+        });
+
+        function loadTeacherCourses() {
+            const user = getCurrentUser();
+            const data = loadMockData();
+            const courses = data.courses.filter(c => c.teacherId === user.id);
+            
+            const select = document.getElementById('course-select');
+            select.innerHTML = '<option value="">Select a course</option>';
+            
+            courses.forEach(course => {
+                const option = document.createElement('option');
+                option.value = course.id;
+                option.textContent = `${course.code} - ${course.name}`;
+                select.appendChild(option);
+            });
+        }
+
+        function loadCourseReport() {
+            const courseId = document.getElementById('course-select').value;
+            if (!courseId) {
+                document.getElementById('course-report').style.display = 'none';
+                return;
+            }
+
+            currentCourseId = courseId;
+            const data = loadMockData();
+            const course = data.courses.find(c => c.id === courseId);
+            const enrollments = data.enrollments.filter(e => e.courseId === courseId);
+
+            // Calculate statistics
+            const enrolledCount = enrollments.length;
+            
+            // Calculate average attendance
+            let totalAttendance = 0;
+            enrollments.forEach(enrollment => {
+                const studentAttendance = data.attendance.filter(a => 
+                    a.courseId === courseId && a.studentId === enrollment.studentId
+                );
+                const present = studentAttendance.filter(a => a.status === 'present' || a.status === 'late').length;
+                const percentage = studentAttendance.length > 0 ? (present / studentAttendance.length) * 100 : 0;
+                totalAttendance += percentage;
+            });
+            const avgAttendance = enrolledCount > 0 ? Math.round(totalAttendance / enrolledCount) : 0;
+
+            // Calculate average grade and pass rate
+            const courseAssessments = data.assessments.filter(a => a.courseId === courseId);
+            let totalGrade = 0;
+            let passCount = 0;
+
+            enrollments.forEach(enrollment => {
+                let studentTotal = 0;
+                let studentWeightage = 0;
+
+                courseAssessments.forEach(assessment => {
+                    const result = data.results.find(r => 
+                        r.assessmentId === assessment.id && r.studentId === enrollment.studentId
+                    );
+                    if (result) {
+                        const percentage = (result.marksObtained / assessment.maxMarks) * 100;
+                        studentTotal += (percentage * assessment.weightage) / 100;
+                        studentWeightage += assessment.weightage;
+                    }
+                });
+
+                const studentGrade = studentWeightage > 0 ? (studentTotal / studentWeightage) * 100 : 0;
+                totalGrade += studentGrade;
+                if (studentGrade >= 40) passCount++;
+            });
+
+            const avgGrade = enrolledCount > 0 ? Math.round(totalGrade / enrolledCount) : 0;
+            const passRate = enrolledCount > 0 ? Math.round((passCount / enrolledCount) * 100) : 0;
+
+            // Update stats
+            document.getElementById('enrolled-count').textContent = enrolledCount;
+            document.getElementById('avg-attendance-report').textContent = avgAttendance + '%';
+            document.getElementById('avg-grade-report').textContent = avgGrade + '%';
+            document.getElementById('pass-rate').textContent = passRate + '%';
+
+            // Display student performance
+            displayStudentPerformance(enrollments, courseId, data);
+
+            // Display grade distribution
+            displayGradeDistribution(enrollments, courseId, data);
+
+            document.getElementById('course-report').style.display = 'block';
+        }
+
+        function displayStudentPerformance(enrollments, courseId, data) {
+            const tbody = document.getElementById('student-performance');
+            tbody.innerHTML = '';
+
+            const courseAssessments = data.assessments.filter(a => a.courseId === courseId);
+
+            enrollments.forEach(enrollment => {
+                const student = data.students.find(s => s.id === enrollment.studentId);
+                
+                // Calculate attendance
+                const studentAttendance = data.attendance.filter(a => 
+                    a.courseId === courseId && a.studentId === student.id
+                );
+                const present = studentAttendance.filter(a => a.status === 'present' || a.status === 'late').length;
+                const attendancePercentage = studentAttendance.length > 0 
+                    ? Math.round((present / studentAttendance.length) * 100) 
+                    : 0;
+
+                // Calculate grade
+                let studentTotal = 0;
+                let studentWeightage = 0;
+
+                courseAssessments.forEach(assessment => {
+                    const result = data.results.find(r => 
+                        r.assessmentId === assessment.id && r.studentId === student.id
+                    );
+                    if (result) {
+                        const percentage = (result.marksObtained / assessment.maxMarks) * 100;
+                        studentTotal += (percentage * assessment.weightage) / 100;
+                        studentWeightage += assessment.weightage;
+                    }
+                });
+
+                const studentGrade = studentWeightage > 0 ? Math.round((studentTotal / studentWeightage) * 100) : 0;
+                const letterGrade = getLetterGrade(studentGrade);
+                const status = studentGrade >= 40 && attendancePercentage >= 75 ? 'Pass' : 'At Risk';
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${student.studentId}</td>
+                    <td>${student.firstName} ${student.lastName}</td>
+                    <td><span class="${attendancePercentage >= 75 ? 'text-success' : 'text-danger'}">${attendancePercentage}%</span></td>
+                    <td><span class="grade-badge grade-${letterGrade[0]}">${letterGrade} (${studentGrade}%)</span></td>
+                    <td><span class="status-badge status-${status === 'Pass' ? 'present' : 'absent'}">${status}</span></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function displayGradeDistribution(enrollments, courseId, data) {
+            const container = document.getElementById('grade-distribution');
+            const courseAssessments = data.assessments.filter(a => a.courseId === courseId);
+
+            const distribution = { A: 0, B: 0, C: 0, D: 0, F: 0 };
+
+            enrollments.forEach(enrollment => {
+                let studentTotal = 0;
+                let studentWeightage = 0;
+
+                courseAssessments.forEach(assessment => {
+                    const result = data.results.find(r => 
+                        r.assessmentId === assessment.id && r.studentId === enrollment.studentId
+                    );
+                    if (result) {
+                        const percentage = (result.marksObtained / assessment.maxMarks) * 100;
+                        studentTotal += (percentage * assessment.weightage) / 100;
+                        studentWeightage += assessment.weightage;
+                    }
+                });
+
+                const studentGrade = studentWeightage > 0 ? (studentTotal / studentWeightage) * 100 : 0;
+                const letterGrade = getLetterGrade(studentGrade);
+                distribution[letterGrade[0]]++;
+            });
+
+            const maxCount = Math.max(...Object.values(distribution));
+
+            container.innerHTML = `
+                <div class="grade-bars">
+                    ${Object.entries(distribution).map(([grade, count]) => `
+                        <div class="grade-bar-item">
+                            <div class="grade-bar-label">${grade}</div>
+                            <div class="grade-bar-container">
+                                <div class="grade-bar grade-${grade}" style="width: ${maxCount > 0 ? (count / maxCount) * 100 : 0}%"></div>
+                            </div>
+                            <div class="grade-bar-count">${count}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function exportReport() {
+            if (!currentCourseId) return;
+
+            const data = loadMockData();
+            const course = data.courses.find(c => c.id === currentCourseId);
+            const enrollments = data.enrollments.filter(e => e.courseId === currentCourseId);
+            const courseAssessments = data.assessments.filter(a => a.courseId === currentCourseId);
+
+            let report = `Course Report: ${course.code} - ${course.name}\n`;
+            report += `Semester: ${course.semester} ${course.academicYear}\n`;
+            report += `Credits: ${course.credits}\n`;
+            report += `\n========================================\n\n`;
+            report += `Student Performance Report\n\n`;
+            report += `Student ID\tName\tAttendance\tGrade\tStatus\n`;
+            report += `------------------------------------------------------------\n`;
+
+            enrollments.forEach(enrollment => {
+                const student = data.students.find(s => s.id === enrollment.studentId);
+                
+                const studentAttendance = data.attendance.filter(a => 
+                    a.courseId === currentCourseId && a.studentId === student.id
+                );
+                const present = studentAttendance.filter(a => a.status === 'present' || a.status === 'late').length;
+                const attendancePercentage = studentAttendance.length > 0 
+                    ? Math.round((present / studentAttendance.length) * 100) 
+                    : 0;
+
+                let studentTotal = 0;
+                let studentWeightage = 0;
+
+                courseAssessments.forEach(assessment => {
+                    const result = data.results.find(r => 
+                        r.assessmentId === assessment.id && r.studentId === student.id
+                    );
+                    if (result) {
+                        const percentage = (result.marksObtained / assessment.maxMarks) * 100;
+                        studentTotal += (percentage * assessment.weightage) / 100;
+                        studentWeightage += assessment.weightage;
+                    }
+                });
+
+                const studentGrade = studentWeightage > 0 ? Math.round((studentTotal / studentWeightage) * 100) : 0;
+                const letterGrade = getLetterGrade(studentGrade);
+                const status = studentGrade >= 40 && attendancePercentage >= 75 ? 'Pass' : 'At Risk';
+
+                report += `${student.studentId}\t${student.firstName} ${student.lastName}\t${attendancePercentage}%\t${letterGrade} (${studentGrade}%)\t${status}\n`;
+            });
+
+            report += `\nGenerated on: ${new Date().toLocaleString()}\n`;
+
+            // Download
+            const blob = new Blob([report], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `report_${course.code}_${new Date().getTime()}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+            
+            showToast('Report exported successfully!', 'success');
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('currentUser');
+                window.location.href = '../index.html';
+            }
+        }
+    </script>
+</body>
+</html>

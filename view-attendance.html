@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Attendance - Student Portal</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar student-sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                        <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                    </svg>
+                    <span>Student Portal</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="student-dashboard.html" class="nav-item">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    <span>Dashboard</span>
+                </a>
+                <a href="view-attendance.html" class="nav-item active">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    <span>View Attendance</span>
+                </a>
+                <a href="view-results.html" class="nav-item">
+                    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                    <span>View Results</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="btn btn-logout" onclick="logout()">
+                    <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                    Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <div>
+                    <h1>My Attendance</h1>
+                    <p class="subtitle">View your attendance records for all courses</p>
+                </div>
+            </div>
+
+            <div class="dashboard-content">
+                <!-- Attendance Summary -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon student-bg">
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="stat-details">
+                            <p class="stat-label">Overall Attendance</p>
+                            <h3 class="stat-value" id="overall-percentage">0%</h3>
+                            <p class="stat-change" id="overall-status">-</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon admin-bg">
+                            <svg viewBox="0 0 24 24">ircle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        </div>
+                        <div class="stat-details">
+                            <p class="stat-label">Total Classes</p>
+                            <h3 class="stat-value" id="total-classes">0</h3>
+                            <p class="stat-change">Across all courses</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon teacher-bg">
+                            <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        </div>
+                        <div class="stat-details">
+                            <p class="stat-label">Classes Attended</p>
+                            <h3 class="stat-value" id="classes-present">0</h3>
+                            <p class="stat-change positive">Present</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: #F44336;">
+                            <svg viewBox="0 0 24 24">ircle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+                        </div>
+                        <div class="stat-details">
+                            <p class="stat-label">Classes Missed</p>
+                            <h3 class="stat-value" id="classes-absent">0</h3>
+                            <p class="stat-change negative">Absent</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course-wise Attendance -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Course-wise Attendance</h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="course-attendance-list"></div>
+                    </div>
+                </div>
+
+                <!-- Detailed Attendance Records -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Attendance Records</h3>
+                        <div class="form-group" style="margin: 0; max-width: 300px;">
+                            <select id="course-filter" class="form-select" onchange="filterAttendance()">
+                                <option value="">All Courses</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Course</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="attendance-records">
+                                <tr>
+                                    <td colspan="3" class="text-center">Loading...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../data/mock-data.js"></script>
+    <script src="../js/storage.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/attendance.js"></script>
+    <script src="../js/ui.js"></script>
+    <script src="../js/utils.js"></script>
+    <script>
+        let allAttendanceRecords = [];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth('student');
+            loadAttendanceData();
+        });
+
+        function loadAttendanceData() {
+            const user = getCurrentUser();
+            const data = loadMockData();
+            
+            // Get student's attendance records
+            const studentAttendance = data.attendance.filter(a => a.studentId === user.id);
+            allAttendanceRecords = studentAttendance;
+
+            // Calculate statistics
+            const totalClasses = studentAttendance.length;
+            const presentCount = studentAttendance.filter(a => a.status === 'present').length;
+            const absentCount = studentAttendance.filter(a => a.status === 'absent').length;
+            const lateCount = studentAttendance.filter(a => a.status === 'late').length;
+            const overallPercentage = totalClasses > 0 ? Math.round(((presentCount + lateCount) / totalClasses) * 100) : 0;
+
+            // Update stats
+            document.getElementById('overall-percentage').textContent = overallPercentage + '%';
+            document.getElementById('total-classes').textContent = totalClasses;
+            document.getElementById('classes-present').textContent = presentCount;
+            document.getElementById('classes-absent').textContent = absentCount;
+
+            const statusElement = document.getElementById('overall-status');
+            if (overallPercentage >= 75) {
+                statusElement.textContent = 'Good Standing';
+                statusElement.className = 'stat-change positive';
+            } else {
+                statusElement.textContent = 'Below Requirement';
+                statusElement.className = 'stat-change negative';
+            }
+
+            // Load course-wise attendance
+            loadCourseWiseAttendance(user.id, data);
+
+            // Populate course filter
+            const enrollments = data.enrollments.filter(e => e.studentId === user.id);
+            const courseFilter = document.getElementById('course-filter');
+            courseFilter.innerHTML = '<option value="">All Courses</option>';
+            enrollments.forEach(enrollment => {
+                const course = data.courses.find(c => c.id === enrollment.courseId);
+                if (course) {
+                    const option = document.createElement('option');
+                    option.value = course.id;
+                    option.textContent = `${course.code} - ${course.name}`;
+                    courseFilter.appendChild(option);
+                }
+            });
+
+            // Display all records
+            displayAttendanceRecords(studentAttendance, data);
+        }
+
+        function loadCourseWiseAttendance(studentId, data) {
+            const enrollments = data.enrollments.filter(e => e.studentId === studentId);
+            const container = document.getElementById('course-attendance-list');
+            container.innerHTML = '';
+
+            enrollments.forEach(enrollment => {
+                const course = data.courses.find(c => c.id === enrollment.courseId);
+                const courseAttendance = data.attendance.filter(a => 
+                    a.studentId === studentId && a.courseId === course.id
+                );
+
+                const total = courseAttendance.length;
+                const present = courseAttendance.filter(a => a.status === 'present').length;
+                const late = courseAttendance.filter(a => a.status === 'late').length;
+                const absent = courseAttendance.filter(a => a.status === 'absent').length;
+                const percentage = total > 0 ? Math.round(((present + late) / total) * 100) : 0;
+
+                const courseCard = document.createElement('div');
+                courseCard.className = 'attendance-course-card';
+                courseCard.innerHTML = `
+                    <div class="course-header">
+                        <div>
+                            <h4>${course.code} - ${course.name}</h4>
+                            <p class="course-stats">${total} total classes</p>
+                        </div>
+                        <div class="attendance-percentage ${percentage >= 75 ? 'good' : 'warning'}">
+                            <span class="percentage-value">${percentage}%</span>
+                            <span class="percentage-label">Attendance</span>
+                        </div>
+                    </div>
+                    <div class="attendance-breakdown">
+                        <div class="breakdown-item">
+                            <span class="status-dot present"></span>
+                            <span>Present: ${present}</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="status-dot late"></span>
+                            <span>Late: ${late}</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="status-dot absent"></span>
+                            <span>Absent: ${absent}</span>
+                        </div>
+                    </div>
+                    ${percentage < 75 ? '<div class="warning-message">⚠️ Below minimum requirement (75%)</div>' : ''}
+                `;
+                container.appendChild(courseCard);
+            });
+        }
+
+        function displayAttendanceRecords(records, data) {
+            const tbody = document.getElementById('attendance-records');
+            tbody.innerHTML = '';
+
+            if (records.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="3" class="text-center">No attendance records found</td></tr>';
+                return;
+            }
+
+            // Sort by date (newest first)
+            records.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            records.forEach(record => {
+                const course = data.courses.find(c => c.id === record.courseId);
+                const date = new Date(record.date);
+                
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${formatDate(date)}</td>
+                    <td>${course.code} - ${course.name}</td>
+                    <td><span class="status-badge status-${record.status}">${capitalizeFirst(record.status)}</span></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function filterAttendance() {
+            const courseId = document.getElementById('course-filter').value;
+            const data = loadMockData();
+            
+            if (courseId) {
+                const filtered = allAttendanceRecords.filter(a => a.courseId === courseId);
+                displayAttendanceRecords(filtered, data);
+            } else {
+                displayAttendanceRecords(allAttendanceRecords, data);
+            }
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('currentUser');
+                window.location.href = '../index.html';
+            }
+        }
+    </script>
+</body>
+</html>

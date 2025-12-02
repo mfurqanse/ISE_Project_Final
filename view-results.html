@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Results - Student Portal</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar (same as view-attendance.html) -->
+        <aside class="sidebar student-sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                        <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                    </svg>
+                    <span>Student Portal</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="student-dashboard.html" class="nav-item">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    <span>Dashboard</span>
+                </a>
+                <a href="view-attendance.html" class="nav-item">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    <span>View Attendance</span>
+                </a>
+                <a href="view-results.html" class="nav-item active">
+                    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                    <span>View Results</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="btn btn-logout" onclick="logout()">
+                    <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                    Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <div>
+                    <h1>My Results</h1>
+                    <p class="subtitle">View your assessment results and grades</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-primary" onclick="downloadTranscript()">
+                        <svg viewBox="0 0 24 24" style="width: 16px; height: 16px; margin-right: 8px;">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        Download Transcript
+                    </button>
+                </div>
+            </div>
+
+            <div class="dashboard-content">
+                <!-- Overall Performance -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon student-bg">
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="stat-details">
+                            <p class="stat-label">Overall Average</p>
+                            <h3 class="stat-value" id="overall-average">-</h3>
+                            <p class="stat-change" id="overall-grade">-</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon teacher-bg">
+                            <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                        </div>
+                        <div class="stat-details">
+                            <p class="stat-label">Courses Graded</p>
+                            <h3 class="stat-value" id="courses-graded">0</h3>
+                            <p class="stat-change">This semester</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon admin-bg">
+                            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                        </div>
+                        <div class="stat-details">
+                            <p class="stat-label">Assessments</p>
+                            <h3 class="stat-value" id="total-assessments">0</h3>
+                            <p class="stat-change">Completed</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon student-bg">
+                            <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                        </div>
+                        <div class="stat-details">
+                            <p class="stat-label">CGPA</p>
+                            <h3 class="stat-value" id="cgpa">-</h3>
+                            <p class="stat-change">Current semester</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course-wise Results -->
+                <div id="course-results-container"></div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../data/mock-data.js"></script>
+    <script src="../js/storage.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/gradeCalculator.js"></script>
+    <script src="../js/ui.js"></script>
+    <script src="../js/utils.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth('student');
+            loadResults();
+        });
+
+        function loadResults() {
+            const user = getCurrentUser();
+            const data = loadMockData();
+            
+            const studentResults = data.results.filter(r => r.studentId === user.id);
+            const enrollments = data.enrollments.filter(e => e.studentId === user.id);
+
+            // Calculate overall statistics
+            let totalPercentage = 0;
+            let gradedCourses = new Set();
+            
+            studentResults.forEach(result => {
+                const assessment = data.assessments.find(a => a.id === result.assessmentId);
+                if (assessment) {
+                    const percentage = (result.marksObtained / assessment.maxMarks) * 100;
+                    totalPercentage += percentage;
+                    gradedCourses.add(assessment.courseId);
+                }
+            });
+
+            const overallAverage = studentResults.length > 0 ? Math.round(totalPercentage / studentResults.length) : 0;
+            const overallGrade = getLetterGrade(overallAverage);
+            const cgpa = calculateCGPA(overallAverage);
+
+            // Update stats
+            document.getElementById('overall-average').textContent = overallAverage + '%';
+            document.getElementById('overall-grade').textContent = 'Grade: ' + overallGrade;
+            document.getElementById('courses-graded').textContent = gradedCourses.size;
+            document.getElementById('total-assessments').textContent = studentResults.length;
+            document.getElementById('cgpa').textContent = cgpa;
+
+            // Display course-wise results
+            displayCourseResults(user.id, enrollments, data);
+        }
+
+        function displayCourseResults(studentId, enrollments, data) {
+            const container = document.getElementById('course-results-container');
+            container.innerHTML = '';
+
+            enrollments.forEach(enrollment => {
+                const course = data.courses.find(c => c.id === enrollment.courseId);
+                const courseAssessments = data.assessments.filter(a => a.courseId === course.id);
+                
+                const courseCard = document.createElement('div');
+                courseCard.className = 'card';
+                
+                let resultsHTML = '';
+                let totalWeightedMarks = 0;
+                let totalWeightage = 0;
+
+                courseAssessments.forEach(assessment => {
+                    const result = data.results.find(r => 
+                        r.assessmentId === assessment.id && r.studentId === studentId
+                    );
+
+                    if (result) {
+                        const percentage = (result.marksObtained / assessment.maxMarks) * 100;
+                        const weightedMark = (percentage * assessment.weightage) / 100;
+                        totalWeightedMarks += weightedMark;
+                        totalWeightage += assessment.weightage;
+                        const grade = getLetterGrade(percentage);
+
+                        resultsHTML += `
+                            <tr>
+                                <td>${assessment.name}</td>
+                                <td>${capitalizeFirst(assessment.type)}</td>
+                                <td>${result.marksObtained}/${assessment.maxMarks}</td>
+                                <td>${Math.round(percentage)}%</td>
+                                <td>${assessment.weightage}%</td>
+                                <td><span class="grade-badge grade-${grade[0]}">${grade}</span></td>
+                            </tr>
+                        `;
+                    }
+                });
+
+                const courseAverage = totalWeightage > 0 ? Math.round((totalWeightedMarks / totalWeightage) * 100) : 0;
+                const courseGrade = getLetterGrade(courseAverage);
+
+                courseCard.innerHTML = `
+                    <div class="card-header">
+                        <div>
+                            <h3>${course.code} - ${course.name}</h3>
+                            <p class="subtitle">${course.credits} Credits • ${course.semester} ${course.academicYear}</p>
+                        </div>
+                        <div class="course-grade-display">
+                            <div class="grade-large grade-${courseGrade[0]}">${courseGrade}</div>
+                            <div class="grade-percentage">${courseAverage}%</div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        ${resultsHTML ? `
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Assessment</th>
+                                        <th>Type</th>
+                                        <th>Marks</th>
+                                        <th>Percentage</th>
+                                        <th>Weightage</th>
+                                        <th>Grade</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${resultsHTML}
+                                </tbody>
+                            </table>
+                        ` : '<p class="text-center">No results available yet</p>'}
+                    </div>
+                `;
+                container.appendChild(courseCard);
+            });
+        }
+
+        function downloadTranscript() {
+            const user = getCurrentUser();
+            const data = loadMockData();
+            const student = data.students.find(s => s.id === user.id);
+            
+            // Create transcript content
+            let transcript = `
+UNIVERSITY STUDENT PORTAL
+ACADEMIC TRANSCRIPT
+
+Student Name: ${student.firstName} ${student.lastName}
+Student ID: ${student.studentId}
+Program: ${student.program}
+Enrollment Year: ${student.enrollmentYear}
+Semester: Fall 2024
+
+========================================
+
+COURSE RESULTS:
+`;
+
+            const enrollments = data.enrollments.filter(e => e.studentId === user.id);
+            
+            enrollments.forEach(enrollment => {
+                const course = data.courses.find(c => c.id === enrollment.courseId);
+                const courseAssessments = data.assessments.filter(a => a.courseId === course.id);
+                
+                transcript += `\n${course.code} - ${course.name} (${course.credits} Credits)\n`;
+                transcript += `----------------------------------------\n`;
+                
+                let totalWeightedMarks = 0;
+                let totalWeightage = 0;
+
+                courseAssessments.forEach(assessment => {
+                    const result = data.results.find(r => 
+                        r.assessmentId === assessment.id && r.studentId === user.id
+                    );
+
+                    if (result) {
+                        const percentage = (result.marksObtained / assessment.maxMarks) * 100;
+                        const weightedMark = (percentage * assessment.weightage) / 100;
+                        totalWeightedMarks += weightedMark;
+                        totalWeightage += assessment.weightage;
+                        const grade = getLetterGrade(percentage);
+
+                        transcript += `${assessment.name}: ${result.marksObtained}/${assessment.maxMarks} (${Math.round(percentage)}%) - Grade: ${grade}\n`;
+                    }
+                });
+
+                const courseAverage = totalWeightage > 0 ? Math.round((totalWeightedMarks / totalWeightage) * 100) : 0;
+                const courseGrade = getLetterGrade(courseAverage);
+                transcript += `Course Grade: ${courseGrade} (${courseAverage}%)\n`;
+            });
+
+            // Calculate overall
+            const studentResults = data.results.filter(r => r.studentId === user.id);
+            let totalPercentage = 0;
+            
+            studentResults.forEach(result => {
+                const assessment = data.assessments.find(a => a.id === result.assessmentId);
+                if (assessment) {
+                    const percentage = (result.marksObtained / assessment.maxMarks) * 100;
+                    totalPercentage += percentage;
+                }
+            });
+
+            const overallAverage = studentResults.length > 0 ? Math.round(totalPercentage / studentResults.length) : 0;
+            const cgpa = calculateCGPA(overallAverage);
+
+            transcript += `\n========================================\n`;
+            transcript += `Overall Average: ${overallAverage}%\n`;
+            transcript += `CGPA: ${cgpa}\n`;
+            transcript += `\nGenerated on: ${new Date().toLocaleDateString()}\n`;
+
+            // Download as text file
+            const blob = new Blob([transcript], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `transcript_${student.studentId}_${new Date().getTime()}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+            
+            showToast('Transcript downloaded successfully!', 'success');
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('currentUser');
+                window.location.href = '../index.html';
+            }
+        }
+    </script>
+</body>
+</html>

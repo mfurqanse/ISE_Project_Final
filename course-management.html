@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Management - Admin Portal</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/forms.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar admin-sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                        <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                    </svg>
+                    <span>Admin Portal</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="admin-dashboard.html" class="nav-item">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    <span>Dashboard</span>
+                </a>
+                <a href="user-management.html" class="nav-item">
+                    <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>ircle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    <span>User Management</span>
+                </a>
+                <a href="course-management.html" class="nav-item active">
+                    <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                    <span>Course Management</span>
+                </a>
+                <a href="system-settings.html" class="nav-item">
+                    <svg viewBox="0 0 24 24">ircle cx="12" cy="12" r="3"></circle><path d="M12 1v6m0 6v6m5.66-13.66l-4.24 4.24m0 6l4.24 4.24M1 12h6m6 0h6m-13.66 5.66l4.24-4.24m0-6l-4.24-4.24"></path></svg>
+                    <span>System Settings</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="btn btn-logout" onclick="logout()">
+                    <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                    Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <div>
+                    <h1>Course Management</h1>
+                    <p class="subtitle">Manage courses and enrollments</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-primary" onclick="showCreateCourseForm()">
+                        <svg viewBox="0 0 24 24" style="width: 16px; height: 16px; margin-right: 8px;">
+                            ircle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="8" x2="12" y2="16"></line>
+                            <line x1="8" y1="12" x2="16" y2="12"></line>
+                        </svg>
+                        Add New Course
+                    </button>
+                </div>
+            </div>
+
+            <div class="dashboard-content">
+                <!-- Statistics -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon teacher-bg">
+                            <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                        </div>
+                        <div class="stat-details">
+                            <p class="stat-label">Total Courses</p>
+                            <h3 class="stat-value" id="total-courses">0</h3>
+                            <p class="stat-change">Active courses</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon student-bg">
+                            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>ircle cx="9" cy="7" r="4"></circle></svg>
+                        </div>
+                        <div class="stat-details">
+                            <p class="stat-label">Total Enrollments</p>
+                            <h3 class="stat-value" id="total-enrollments">0</h3>
+                            <p class="stat-change">This semester</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon admin-bg">
+                            <svg viewBox="0 0 24 24">ircle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        </div>
+                        <div class="stat-details">
+                            <p class="stat-label">Total Credits</p>
+                            <h3 class="stat-value" id="total-credits">0</h3>
+                            <p class="stat-change">Offered this semester</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="semester-filter">Filter by Semester</label>
+                                <select id="semester-filter" class="form-select" onchange="filterCourses()">
+                                    <option value="">All Semesters</option>
+                                    <option value="Fall">Fall</option>
+                                    <option value="Spring">Spring</option>
+                                    <option value="Summer">Summer</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="search-course">Search</label>
+                                <input type="text" id="search-course" class="form-input" placeholder="Search by code or name..." oninput="filterCourses()">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Courses Table -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>All Courses</h3>
+                    </div>
+                    <div class="card-body">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Name</th>
+                                    <th>Teacher</th>
+                                    <th>Credits</th>
+                                    <th>Semester</th>
+                                    <th>Enrollments</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="courses-table">
+                                <tr>
+                                    <td colspan="7" class="text-center">Loading...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Create/Edit Course Modal -->
+    <div id="course-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Add New Course</h2>
+                <button class="btn-close" onclick="closeCourseModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="course-form" onsubmit="saveCourse(event)">
+                    <input type="hidden" id="course-id">
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="course-code">Course Code *</label>
+                            <input type="text" id="course-code" class="form-input" placeholder="e.g., CS101" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="course-name">Course Name *</label>
+                            <input type="text" id="course-name" class="form-input" placeholder="e.g., Introduction to Programming" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="course-description">Description *</label>
+                        <textarea id="course-description" class="form-input" rows="3" placeholder="Course description" required></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="course-credits">Credits *</label>
+                            <input type="number" id="course-credits" class="form-input" min="1" max="6" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="course-teacher">Teacher *</label>
+                            <select id="course-teacher" class="form-select" required>
+                                <option value="">Select Teacher</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="course-semester">Semester *</label>
+                            <select id="course-semester" class="form-select" required>
+                                <option value="">Select Semester</option>
+                                <option value="Fall">Fall</option>
+                                <option value="Spring">Spring</option>
+                                <option value="Summer">Summer</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="course-year">Academic Year *</label>
+                            <input type="text" id="course-year" class="form-input" placeholder="e.g., 2024-2025" required>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeCourseModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Course</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="../data/mock-data.js"></script>
+    <script src="../js/storage.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/validator.js"></script>
+    <script src="../js/ui.js"></script>
+    <script src="../js/utils.js"></script>
+    <script>
+        let allCourses = [];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth('admin');
+            loadCourses();
+            loadTeachersForDropdown();
+        });
+
+        function loadCourses() {
+            const data = loadMockData();
+            allCourses = data.courses;
+            
+            // Update statistics
+            document.getElementById('total-courses').textContent = allCourses.length;
+            document.getElementById('total-enrollments').textContent = data.enrollments.length;
+            
+            let totalCredits = 0;
+            allCourses.forEach(course => totalCredits += course.credits);
+            document.getElementById('total-credits').textContent = totalCredits;
+            
+            displayCourses(allCourses, data);
+        }
+
+        function loadTeachersForDropdown() {
+            const data = loadMockData();
+            const teachers = data.users.filter(u => u.role === 'teacher');
+            const select = document.getElementById('course-teacher');
+            
+            select.innerHTML = '<option value="">Select Teacher</option>';
+            teachers.forEach(teacher => {
+                const option = document.createElement('option');
+                option.value = teacher.id;
+                option.textContent = `${teacher.firstName} ${teacher.lastName}`;
+                select.appendChild(option);
+            });
+        }
+
+        function displayCourses(courses, data) {
+            const tbody = document.getElementById('courses-table');
+            tbody.innerHTML = '';
+
+            if (courses.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" class="text-center">No courses found</td></tr>';
+                return;
+            }
+
+            courses.forEach(course => {
+                const teacher = data.users.find(u => u.id === course.teacherId);
+                const enrollments = data.enrollments.filter(e => e.courseId === course.id);
+                
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${course.code}</strong></td>
+                    <td>${course.name}</td>
+                    <td>${teacher ? teacher.firstName + ' ' + teacher.lastName : 'Unassigned'}</td>
+                    <td>${course.credits}</td>
+                    <td><span class="badge badge-success">${course.semester} ${course.academicYear}</span></td>
+                    <td>${enrollments.length} students</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn-icon" onclick='editCourse(${JSON.stringify(course)})' title="Edit">
+                                <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                            </button>
+                            <button class="btn-icon btn-danger" onclick="deleteCourse('${course.id}')" title="Delete">
+                                <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function filterCourses() {
+            const semesterFilter = document.getElementById('semester-filter').value;
+            const searchTerm = document.getElementById('search-course').value.toLowerCase();
+            const data = loadMockData();
+
+            let filtered = allCourses;
+
+            if (semesterFilter) {
+                filtered = filtered.filter(c => c.semester === semesterFilter);
+            }
+
+            if (searchTerm) {
+                filtered = filtered.filter(c => 
+                    c.code.toLowerCase().includes(searchTerm) ||
+                    c.name.toLowerCase().includes(searchTerm)
+                );
+            }
+
+            displayCourses(filtered, data);
+        }
+
+        function showCreateCourseForm() {
+            document.getElementById('modal-title').textContent = 'Add New Course';
+            document.getElementById('course-form').reset();
+            document.getElementById('course-id').value = '';
+            document.getElementById('course-modal').style.display = 'flex';
+        }
+
+        function editCourse(course) {
+            document.getElementById('modal-title').textContent = 'Edit Course';
+            document.getElementById('course-id').value = course.id;
+            document.getElementById('course-code').value = course.code;
+            document.getElementById('course-name').value = course.name;
+            document.getElementById('course-description').value = course.description;
+            document.getElementById('course-credits').value = course.credits;
+            document.getElementById('course-teacher').value = course.teacherId;
+            document.getElementById('course-semester').value = course.semester;
+            document.getElementById('course-year').value = course.academicYear;
+            
+            document.getElementById('course-modal').style.display = 'flex';
+        }
+
+        function closeCourseModal() {
+            document.getElementById('course-modal').style.display = 'none';
+            document.getElementById('course-form').reset();
+        }
+
+        function saveCourse(event) {
+            event.preventDefault();
+
+            const courseId = document.getElementById('course-id').value;
+
+            const courseData = {
+                id: courseId || 'course-' + Date.now(),
+                code: document.getElementById('course-code').value,
+                name: document.getElementById('course-name').value,
+                description: document.getElementById('course-description').value,
+                credits: parseInt(document.getElementById('course-credits').value),
+                teacherId: document.getElementById('course-teacher').value,
+                semester: document.getElementById('course-semester').value,
+                academicYear: document.getElementById('course-year').value,
+                createdAt: new Date()
+            };
+
+            const data = loadMockData();
+
+            if (courseId) {
+                // Update existing course
+                const index = data.courses.findIndex(c => c.id === courseId);
+                if (index !== -1) {
+                    data.courses[index] = courseData;
+                }
+                showToast('Course updated successfully!', 'success');
+            } else {
+                // Add new course
+                data.courses.push(courseData);
+                showToast('Course created successfully!', 'success');
+            }
+
+            saveMockData(data);
+            closeCourseModal();
+            loadCourses();
+        }
+
+        function deleteCourse(courseId) {
+            if (confirm('Are you sure you want to delete this course? This will also remove all enrollments.')) {
+                const data = loadMockData();
+                data.courses = data.courses.filter(c => c.id !== courseId);
+                data.enrollments = data.enrollments.filter(e => e.courseId !== courseId);
+                
+                saveMockData(data);
+                showToast('Course deleted successfully!', 'success');
+                loadCourses();
+            }
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('currentUser');
+                window.location.href = '../index.html';
+            }
+        }
+    </script>
+</body>
+</html>

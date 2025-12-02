@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Marks - Teacher Portal</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/forms.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar (same as mark-attendance.html) -->
+        <aside class="sidebar teacher-sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                    </svg>
+                    <span>Teacher Portal</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="teacher-dashboard.html" class="nav-item">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    <span>Dashboard</span>
+                </a>
+                <a href="mark-attendance.html" class="nav-item">
+                    <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <span>Mark Attendance</span>
+                </a>
+                <a href="upload-marks.html" class="nav-item active">
+                    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                    <span>Upload Marks</span>
+                </a>
+                <a href="view-reports.html" class="nav-item">
+                    <svg viewBox="0 0 24 24"><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line></svg>
+                    <span>View Reports</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="btn btn-logout" onclick="logout()">
+                    <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                    Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <div>
+                    <h1>Upload Marks</h1>
+                    <p class="subtitle">Enter student marks for assessments</p>
+                </div>
+            </div>
+
+            <div class="dashboard-content">
+                <!-- Assessment Selection -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Select Course and Assessment</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="course-select">Course</label>
+                                <select id="course-select" class="form-select" onchange="loadAssessments()">
+                                    <option value="">Select a course</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="assessment-select">Assessment</label>
+                                <select id="assessment-select" class="form-select" onchange="loadStudentsForMarks()" disabled>
+                                    <option value="">Select an assessment</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary" onclick="showCreateAssessment()">+ Create New Assessment</button>
+                    </div>
+                </div>
+
+                <!-- Create Assessment Form (Hidden by default) -->
+                <div class="card" id="create-assessment-card" style="display: none;">
+                    <div class="card-header">
+                        <h3>Create New Assessment</h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="create-assessment-form" onsubmit="createAssessment(event)">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="assessment-name">Assessment Name</label>
+                                    <input type="text" id="assessment-name" class="form-input" placeholder="e.g., Midterm Exam" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="assessment-type">Type</label>
+                                    <select id="assessment-type" class="form-select" required>
+                                        <option value="quiz">Quiz</option>
+                                        <option value="assignment">Assignment</option>
+                                        <option value="midterm">Midterm</option>
+                                        <option value="final">Final Exam</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="max-marks">Maximum Marks</label>
+                                    <input type="number" id="max-marks" class="form-input" min="1" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="weightage">Weightage (%)</label>
+                                    <input type="number" id="weightage" class="form-input" min="1" max="100" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="assessment-date">Date</label>
+                                    <input type="date" id="assessment-date" class="form-input" required>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-secondary" onclick="hideCreateAssessment()">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Create Assessment</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Student Marks Entry -->
+                <div class="card" id="marks-entry-card" style="display: none;">
+                    <div class="card-header">
+                        <h3>Enter Student Marks</h3>
+                        <div class="assessment-info" id="assessment-info"></div>
+                        <button class="btn btn-primary" onclick="saveMarks()">Save All Marks</button>
+                    </div>
+                    <div class="card-body">
+                        <table class="data-table marks-table">
+                            <thead>
+                                <tr>
+                                    <th>Student ID</th>
+                                    <th>Name</th>
+                                    <th>Marks Obtained</th>
+                                    <th>Percentage</th>
+                                    <th>Grade</th>
+                                </tr>
+                            </thead>
+                            <tbody id="marks-tbody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="../data/mock-data.js"></script>
+    <script src="../js/storage.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/gradeCalculator.js"></script>
+    <script src="../js/ui.js"></script>
+    <script src="../js/utils.js"></script>
+    <script>
+        let marksData = {};
+        let currentAssessment = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth('teacher');
+            loadTeacherCourses();
+        });
+
+        function loadTeacherCourses() {
+            const user = getCurrentUser();
+            const data = loadMockData();
+            const courses = data.courses.filter(c => c.teacherId === user.id);
+            
+            const select = document.getElementById('course-select');
+            select.innerHTML = '<option value="">Select a course</option>';
+            
+            courses.forEach(course => {
+                const option = document.createElement('option');
+                option.value = course.id;
+                option.textContent = `${course.code} - ${course.name}`;
+                select.appendChild(option);
+            });
+        }
+
+        function loadAssessments() {
+            const courseId = document.getElementById('course-select').value;
+            const assessmentSelect = document.getElementById('assessment-select');
+            
+            if (!courseId) {
+                assessmentSelect.innerHTML = '<option value="">Select an assessment</option>';
+                assessmentSelect.disabled = true;
+                return;
+            }
+
+            const data = loadMockData();
+            const assessments = data.assessments.filter(a => a.courseId === courseId);
+            
+            assessmentSelect.innerHTML = '<option value="">Select an assessment</option>';
+            assessments.forEach(assessment => {
+                const option = document.createElement('option');
+                option.value = assessment.id;
+                option.textContent = `${assessment.name} (${assessment.maxMarks} marks, ${assessment.weightage}%)`;
+                option.dataset.assessment = JSON.stringify(assessment);
+                assessmentSelect.appendChild(option);
+            });
+            
+            assessmentSelect.disabled = false;
+        }
+
+        function loadStudentsForMarks() {
+            const courseId = document.getElementById('course-select').value;
+            const assessmentSelect = document.getElementById('assessment-select');
+            const assessmentId = assessmentSelect.value;
+
+            if (!assessmentId) {
+                document.getElementById('marks-entry-card').style.display = 'none';
+                return;
+            }
+
+            const selectedOption = assessmentSelect.options[assessmentSelect.selectedIndex];
+            currentAssessment = JSON.parse(selectedOption.dataset.assessment);
+
+            // Display assessment info
+            document.getElementById('assessment-info').innerHTML = `
+                <strong>${currentAssessment.name}</strong> - Max Marks: ${currentAssessment.maxMarks}, Weightage: ${currentAssessment.weightage}%
+            `;
+
+            const data = loadMockData();
+            const enrollments = data.enrollments.filter(e => e.courseId === courseId);
+            const tbody = document.getElementById('marks-tbody');
+            tbody.innerHTML = '';
+            marksData = {};
+
+            enrollments.forEach(enrollment => {
+                const student = data.students.find(s => s.id === enrollment.studentId);
+                const existingResult = data.results.find(r => r.assessmentId === assessmentId && r.studentId === student.id);
+                
+                if (student) {
+                    const tr = document.createElement('tr');
+                    const marksObtained = existingResult ? existingResult.marksObtained : 0;
+                    const percentage = currentAssessment.maxMarks > 0 ? Math.round((marksObtained / currentAssessment.maxMarks) * 100) : 0;
+                    const grade = getLetterGrade(percentage);
+                    
+                    tr.innerHTML = `
+                        <td>${student.studentId}</td>
+                        <td>${student.firstName} ${student.lastName}</td>
+                        <td>
+                            <input type="number" 
+                                   class="marks-input" 
+                                   data-student="${student.id}" 
+                                   min="0" 
+                                   max="${currentAssessment.maxMarks}" 
+                                   value="${marksObtained}"
+                                   onchange="updateMarks(this)">
+                            <span class="max-marks">/ ${currentAssessment.maxMarks}</span>
+                        </td>
+                        <td><span class="percentage" data-student="${student.id}">${percentage}%</span></td>
+                        <td><span class="grade-badge grade-${grade[0]}" data-student="${student.id}">${grade}</span></td>
+                    `;
+                    tbody.appendChild(tr);
+                    marksData[student.id] = marksObtained;
+                }
+            });
+
+            document.getElementById('marks-entry-card').style.display = 'block';
+        }
+
+        function updateMarks(input) {
+            const studentId = input.dataset.student;
+            const marks = parseFloat(input.value) || 0;
+            const maxMarks = currentAssessment.maxMarks;
+
+            if (marks > maxMarks) {
+                input.value = maxMarks;
+                marksData[studentId] = maxMarks;
+            } else {
+                marksData[studentId] = marks;
+            }
+
+            // Update percentage and grade
+            const percentage = Math.round((marksData[studentId] / maxMarks) * 100);
+            const grade = getLetterGrade(percentage);
+            
+            document.querySelector(`.percentage[data-student="${studentId}"]`).textContent = percentage + '%';
+            const gradeBadge = document.querySelector(`.grade-badge[data-student="${studentId}"]`);
+            gradeBadge.textContent = grade;
+            gradeBadge.className = `grade-badge grade-${grade[0]}`;
+        }
+
+        function saveMarks() {
+            const assessmentId = document.getElementById('assessment-select').value;
+            
+            if (!assessmentId) {
+                showToast('Please select an assessment', 'error');
+                return;
+            }
+
+            const results = Object.entries(marksData).map(([studentId, marks]) => ({
+                id: 'res-' + Date.now() + '-' + studentId,
+                assessmentId: assessmentId,
+                studentId: studentId,
+                marksObtained: marks,
+                uploadedAt: new Date()
+            }));
+
+            saveResults(results);
+            showToast('Marks saved successfully!', 'success');
+        }
+
+        function showCreateAssessment() {
+            document.getElementById('create-assessment-card').style.display = 'block';
+        }
+
+        function hideCreateAssessment() {
+            document.getElementById('create-assessment-card').style.display = 'none';
+            document.getElementById('create-assessment-form').reset();
+        }
+
+        function createAssessment(event) {
+            event.preventDefault();
+            
+            const courseId = document.getElementById('course-select').value;
+            if (!courseId) {
+                showToast('Please select a course first', 'error');
+                return;
+            }
+
+            const assessment = {
+                id: 'assess-' + Date.now(),
+                courseId: courseId,
+                name: document.getElementById('assessment-name').value,
+                type: document.getElementById('assessment-type').value,
+                maxMarks: parseInt(document.getElementById('max-marks').value),
+                weightage: parseInt(document.getElementById('weightage').value),
+                date: new Date(document.getElementById('assessment-date').value)
+            };
+
+            saveAssessment(assessment);
+            showToast('Assessment created successfully!', 'success');
+            hideCreateAssessment();
+            loadAssessments();
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('currentUser');
+                window.location.href = '../index.html';
+            }
+        }
+    </script>
+</body>
+</html>

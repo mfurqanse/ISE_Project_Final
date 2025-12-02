@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Settings - Admin Portal</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/forms.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar admin-sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                        <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                    </svg>
+                    <span>Admin Portal</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="admin-dashboard.html" class="nav-item">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    <span>Dashboard</span>
+                </a>
+                <a href="user-management.html" class="nav-item">
+                    <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>ircle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    <span>User Management</span>
+                </a>
+                <a href="course-management.html" class="nav-item">
+                    <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                    <span>Course Management</span>
+                </a>
+                <a href="system-settings.html" class="nav-item active">
+                    <svg viewBox="0 0 24 24">ircle cx="12" cy="12" r="3"></circle><path d="M12 1v6m0 6v6m5.66-13.66l-4.24 4.24m0 6l4.24 4.24M1 12h6m6 0h6m-13.66 5.66l4.24-4.24m0-6l-4.24-4.24"></path></svg>
+                    <span>System Settings</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="btn btn-logout" onclick="logout()">
+                    <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                    Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <div>
+                    <h1>System Settings</h1>
+                    <p class="subtitle">Configure system parameters and preferences</p>
+                </div>
+            </div>
+
+            <div class="dashboard-content">
+                <!-- General Settings -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>General Settings</h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="general-settings-form" onsubmit="saveGeneralSettings(event)">
+                            <div class="form-group">
+                                <label for="site-name">Site Name</label>
+                                <input type="text" id="site-name" class="form-input" required>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="academic-year">Academic Year</label>
+                                    <input type="text" id="academic-year" class="form-input" placeholder="e.g., 2024-2025" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="current-semester">Current Semester</label>
+                                    <select id="current-semester" class="form-select" required>
+                                        <option value="Fall 2024">Fall 2024</option>
+                                        <option value="Spring 2025">Spring 2025</option>
+                                        <option value="Summer 2025">Summer 2025</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Save General Settings</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Academic Settings -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Academic Settings</h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="academic-settings-form" onsubmit="saveAcademicSettings(event)">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="minimum-attendance">Minimum Attendance (%)</label>
+                                    <input type="number" id="minimum-attendance" class="form-input" min="0" max="100" required>
+                                    <small class="form-text">Students must maintain this attendance percentage</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="passing-grade">Passing Grade (%)</label>
+                                    <input type="number" id="passing-grade" class="form-input" min="0" max="100" required>
+                                    <small class="form-text">Minimum percentage to pass a course</small>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <h4 style="margin-bottom: 1rem;">Grade Scale</h4>
+                                <div class="grade-scale-grid">
+                                    <div class="grade-scale-item">
+                                        <label>A Grade (Excellent)</label>
+                                        <div class="form-row">
+                                            <input type="number" class="form-input" placeholder="Min %" value="85" readonly>
+                                            <input type="number" class="form-input" placeholder="Max %" value="100" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="grade-scale-item">
+                                        <label>B Grade (Good)</label>
+                                        <div class="form-row">
+                                            <input type="number" class="form-input" placeholder="Min %" value="70" readonly>
+                                            <input type="number" class="form-input" placeholder="Max %" value="84" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="grade-scale-item">
+                                        <label>C Grade (Average)</label>
+                                        <div class="form-row">
+                                            <input type="number" class="form-input" placeholder="Min %" value="55" readonly>
+                                            <input type="number" class="form-input" placeholder="Max %" value="69" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="grade-scale-item">
+                                        <label>D Grade (Below Average)</label>
+                                        <div class="form-row">
+                                            <input type="number" class="form-input" placeholder="Min %" value="40" readonly>
+                                            <input type="number" class="form-input" placeholder="Max %" value="54" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="grade-scale-item">
+                                        <label>F Grade (Fail)</label>
+                                        <div class="form-row">
+                                            <input type="number" class="form-input" placeholder="Min %" value="0" readonly>
+                                            <input type="number" class="form-input" placeholder="Max %" value="39" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Save Academic Settings</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Notification Settings -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Notification Settings</h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="notification-settings-form" onsubmit="saveNotificationSettings(event)">
+                            <div class="checkbox-group">
+                                <div class="checkbox-label">
+                                    <input type="checkbox" id="email-notifications">
+                                    <label for="email-notifications">Enable Email Notifications</label>
+                                </div>
+                                <p class="form-text">Send email notifications for important events</p>
+                            </div>
+
+                            <div class="checkbox-group">
+                                <div class="checkbox-label">
+                                    <input type="checkbox" id="attendance-alerts">
+                                    <label for="attendance-alerts">Low Attendance Alerts</label>
+                                </div>
+                                <p class="form-text">Alert students when attendance falls below minimum</p>
+                            </div>
+
+                            <div class="checkbox-group">
+                                <div class="checkbox-label">
+                                    <input type="checkbox" id="grade-notifications">
+                                    <label for="grade-notifications">Grade Upload Notifications</label>
+                                </div>
+                                <p class="form-text">Notify students when new grades are uploaded</p>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Save Notification Settings</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- System Information -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>System Information</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <span class="info-label">System Version:</span>
+                                <span class="info-value">1.0.0</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Last Updated:</span>
+                                <span class="info-value" id="last-updated">-</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Total Users:</span>
+                                <span class="info-value" id="system-users">-</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Total Courses:</span>
+                                <span class="info-value" id="system-courses">-</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Database Size:</span>
+                                <span class="info-value" id="db-size">-</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Storage Type:</span>
+                                <span class="info-value">LocalStorage</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Data Management -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Data Management</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="data-management-actions">
+                            <button class="btn btn-secondary" onclick="exportData()">
+                                <svg viewBox="0 0 24 24" style="width: 16px; height: 16px; margin-right: 8px;">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                                Export All Data
+                            </button>
+                            <button class="btn btn-secondary" onclick="resetData()">
+                                <svg viewBox="0 0 24 24" style="width: 16px; height: 16px; margin-right: 8px;">
+                                    <polyline points="23 4 23 10 17 10"></polyline>
+                                    <polyline points="1 20 1 14 7 14"></polyline>
+                                    <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                                </svg>
+                                Reset to Default Data
+                            </button>
+                            <button class="btn btn-danger" onclick="clearAllData()">
+                                <svg viewBox="0 0 24 24" style="width: 16px; height: 16px; margin-right: 8px;">
+                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                </svg>
+                                Clear All Data
+                            </button>
+                        </div>
+                        <p class="form-text" style="margin-top: 1rem;">
+                            <strong>Warning:</strong> These actions will affect all system data. Please use with caution.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="../data/mock-data.js"></script>
+    <script src="../js/storage.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/ui.js"></script>
+    <script src="../js/utils.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth('admin');
+            loadSettings();
+            loadSystemInfo();
+        });
+
+        function loadSettings() {
+            const data = loadMockData();
+            const settings = data.settings || mockSettings;
+
+            // General Settings
+            document.getElementById('site-name').value = settings.siteName || 'University Student Portal';
+            document.getElementById('academic-year').value = settings.academicYear || '2024-2025';
+            document.getElementById('current-semester').value = settings.currentSemester || 'Fall 2024';
+
+            // Academic Settings
+            document.getElementById('minimum-attendance').value = settings.minimumAttendance || 75;
+            document.getElementById('passing-grade').value = settings.passingGrade || 40;
+
+            // Notification Settings
+            document.getElementById('email-notifications').checked = settings.emailNotifications !== false;
+            document.getElementById('attendance-alerts').checked = settings.attendanceAlerts !== false;
+            document.getElementById('grade-notifications').checked = settings.gradeNotifications !== false;
+        }
+
+        function loadSystemInfo() {
+            const data = loadMockData();
+            
+            document.getElementById('last-updated').textContent = new Date().toLocaleDateString();
+            document.getElementById('system-users').textContent = data.users.length;
+            document.getElementById('system-courses').textContent = data.courses.length;
+            
+            // Calculate approximate storage size
+            const dataStr = JSON.stringify(data);
+            const sizeKB = (new Blob([dataStr]).size / 1024).toFixed(2);
+            document.getElementById('db-size').textContent = sizeKB + ' KB';
+        }
+
+        function saveGeneralSettings(event) {
+            event.preventDefault();
+            
+            const data = loadMockData();
+            data.settings = data.settings || {};
+            
+            data.settings.siteName = document.getElementById('site-name').value;
+            data.settings.academicYear = document.getElementById('academic-year').value;
+            data.settings.currentSemester = document.getElementById('current-semester').value;
+            
+            saveMockData(data);
+            showToast('General settings saved successfully!', 'success');
+        }
+
+        function saveAcademicSettings(event) {
+            event.preventDefault();
+            
+            const data = loadMockData();
+            data.settings = data.settings || {};
+            
+            data.settings.minimumAttendance = parseInt(document.getElementById('minimum-attendance').value);
+            data.settings.passingGrade = parseInt(document.getElementById('passing-grade').value);
+            
+            saveMockData(data);
+            showToast('Academic settings saved successfully!', 'success');
+        }
+
+        function saveNotificationSettings(event) {
+            event.preventDefault();
+            
+            const data = loadMockData();
+            data.settings = data.settings || {};
+            
+            data.settings.emailNotifications = document.getElementById('email-notifications').checked;
+            data.settings.attendanceAlerts = document.getElementById('attendance-alerts').checked;
+            data.settings.gradeNotifications = document.getElementById('grade-notifications').checked;
+            
+            saveMockData(data);
+            showToast('Notification settings saved successfully!', 'success');
+        }
+
+        function exportData() {
+            const data = loadMockData();
+            const dataStr = JSON.stringify(data, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `system-data-${new Date().getTime()}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+            
+            showToast('Data exported successfully!', 'success');
+        }
+
+        function resetData() {
+            if (confirm('Are you sure you want to reset all data to default? This will remove all custom data.')) {
+                localStorage.removeItem('mockData');
+                initializeMockData();
+                loadSettings();
+                loadSystemInfo();
+                showToast('Data reset to defaults!', 'success');
+            }
+        }
+
+        function clearAllData() {
+            if (confirm('WARNING: This will delete ALL data including users, courses, and settings. Are you absolutely sure?')) {
+                if (confirm('This action cannot be undone. Continue?')) {
+                    localStorage.clear();
+                    showToast('All data cleared!', 'warning');
+                    setTimeout(() => {
+                        window.location.href = '../index.html';
+                    }, 1500);
+                }
+            }
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('currentUser');
+                window.location.href = '../index.html';
+            }
+        }
+    </script>
+
+    <style>
+        .checkbox-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .checkbox-label input[type="checkbox"] {
+            margin-right: 0.75rem;
+        }
+
+        .checkbox-label label {
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .form-text {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .grade-scale-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .grade-scale-item label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .data-management-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+    </style>
+</body>
+</html>

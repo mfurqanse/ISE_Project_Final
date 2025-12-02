@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mark Attendance - Teacher Portal</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/forms.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar teacher-sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                    </svg>
+                    <span>Teacher Portal</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="teacher-dashboard.html" class="nav-item">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    <span>Dashboard</span>
+                </a>
+                <a href="mark-attendance.html" class="nav-item active">
+                    <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <span>Mark Attendance</span>
+                </a>
+                <a href="upload-marks.html" class="nav-item">
+                    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                    <span>Upload Marks</span>
+                </a>
+                <a href="view-reports.html" class="nav-item">
+                    <svg viewBox="0 0 24 24"><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line></svg>
+                    <span>View Reports</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="btn btn-logout" onclick="logout()">
+                    <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                    Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <div>
+                    <h1>Mark Attendance</h1>
+                    <p class="subtitle">Record student attendance for your courses</p>
+                </div>
+            </div>
+
+            <div class="dashboard-content">
+                <!-- Course Selection -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Select Course and Date</h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="attendance-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="course-select">Course</label>
+                                    <select id="course-select" class="form-select" required onchange="loadStudentList()">
+                                        <option value="">Select a course</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="attendance-date">Date</label>
+                                    <input type="date" id="attendance-date" class="form-input" required>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Student List -->
+                <div class="card" id="student-list-card" style="display: none;">
+                    <div class="card-header">
+                        <h3>Student List</h3>
+                        <div class="header-actions">
+                            <button class="btn btn-secondary" onclick="markAllPresent()">Mark All Present</button>
+                            <button class="btn btn-primary" onclick="saveAttendance()">Save Attendance</button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <table class="data-table attendance-table">
+                            <thead>
+                                <tr>
+                                    <th>Student ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="students-tbody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="../data/mock-data.js"></script>
+    <script src="../js/storage.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/attendance.js"></script>
+    <script src="../js/ui.js"></script>
+    <script src="../js/utils.js"></script>
+    <script>
+        let attendanceData = {};
+
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth('teacher');
+            loadTeacherCourses();
+            setTodayDate();
+        });
+
+        function setTodayDate() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('attendance-date').value = today;
+        }
+
+        function loadTeacherCourses() {
+            const user = getCurrentUser();
+            const data = loadMockData();
+            const courses = data.courses.filter(c => c.teacherId === user.id);
+            
+            const select = document.getElementById('course-select');
+            select.innerHTML = '<option value="">Select a course</option>';
+            
+            courses.forEach(course => {
+                const option = document.createElement('option');
+                option.value = course.id;
+                option.textContent = `${course.code} - ${course.name}`;
+                select.appendChild(option);
+            });
+        }
+
+        function loadStudentList() {
+            const courseId = document.getElementById('course-select').value;
+            if (!courseId) {
+                document.getElementById('student-list-card').style.display = 'none';
+                return;
+            }
+
+            const data = loadMockData();
+            const enrollments = data.enrollments.filter(e => e.courseId === courseId);
+            const tbody = document.getElementById('students-tbody');
+            tbody.innerHTML = '';
+            attendanceData = {};
+
+            enrollments.forEach(enrollment => {
+                const student = data.students.find(s => s.id === enrollment.studentId);
+                if (student) {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${student.studentId}</td>
+                        <td>${student.firstName} ${student.lastName}</td>
+                        <td>${student.email}</td>
+                        <td>
+                            <div class="attendance-buttons">
+                                <button class="btn-status btn-present" data-student="${student.id}" data-status="present" onclick="markStatus(this)">Present</button>
+                                <button class="btn-status btn-absent" data-student="${student.id}" data-status="absent" onclick="markStatus(this)">Absent</button>
+                                <button class="btn-status btn-late" data-student="${student.id}" data-status="late" onclick="markStatus(this)">Late</button>
+                            </div>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                    attendanceData[student.id] = 'absent'; // Default to absent
+                }
+            });
+
+            document.getElementById('student-list-card').style.display = 'block';
+        }
+
+        function markStatus(button) {
+            const studentId = button.dataset.student;
+            const status = button.dataset.status;
+            const row = button.closest('tr');
+            
+            // Remove active class from all buttons in this row
+            row.querySelectorAll('.btn-status').forEach(btn => btn.classList.remove('active'));
+            
+            // Add active class to clicked button
+            button.classList.add('active');
+            
+            // Update attendance data
+            attendanceData[studentId] = status;
+        }
+
+        function markAllPresent() {
+            const buttons = document.querySelectorAll('.btn-status[data-status="present"]');
+            buttons.forEach(btn => markStatus(btn));
+        }
+
+        function saveAttendance() {
+            const courseId = document.getElementById('course-select').value;
+            const date = document.getElementById('attendance-date').value;
+
+            if (!courseId || !date) {
+                showToast('Please select course and date', 'error');
+                return;
+            }
+
+            // In a real app, this would save to a backend
+            const attendance = Object.entries(attendanceData).map(([studentId, status]) => ({
+                id: 'att-' + Date.now() + '-' + studentId,
+                courseId: courseId,
+                studentId: studentId,
+                date: new Date(date),
+                status: status
+            }));
+
+            // Save to localStorage for demo purposes
+            saveAttendanceRecords(attendance);
+            showToast('Attendance saved successfully!', 'success');
+            
+            // Reset form
+            setTimeout(() => {
+                document.getElementById('course-select').value = '';
+                document.getElementById('student-list-card').style.display = 'none';
+                setTodayDate();
+            }, 1500);
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('currentUser');
+                window.location.href = '../index.html';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard - University Portal</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar teacher-sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                    </svg>
+                    <span>Teacher Portal</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="teacher-dashboard.html" class="nav-item active">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    <span>Dashboard</span>
+                </a>
+                <a href="mark-attendance.html" class="nav-item">
+                    <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <span>Mark Attendance</span>
+                </a>
+                <a href="upload-marks.html" class="nav-item">
+                    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    <span>Upload Marks</span>
+                </a>
+                <a href="view-reports.html" class="nav-item">
+                    <svg viewBox="0 0 24 24"><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line></svg>
+                    <span>View Reports</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="btn btn-logout" onclick="logout()">
+                    <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                    Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <div>
+                    <h1>Teacher Dashboard</h1>
+                    <p class="subtitle">Welcome back, <span id="teacher-name">Teacher</span></p>
+                </div>
+                <div class="header-actions">
+                    <div class="user-profile">
+                        <div class="avatar teacher-bg">T</div>
+                        <span id="user-email"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-content">
+                <!-- Statistics Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon teacher-bg">
+                            <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                        </div>
+                        <div class="stat-details">
+                            <p class="stat-label">My Courses</p>
+                            <h3 class="stat-value" id="my-courses">0</h3>
+                            <p class="stat-change">Active courses</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon student-bg">
+                            <svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+                        </div>
+                        <div class="stat-details">
+                            <p class="stat-label">Total Students</p>
+                            <h3 class="stat-value" id="total-students">0</h3>
+                            <p class="stat-change">Across all courses</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon admin-bg">
+                            <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                        </div>
+                        <div class="stat-details">
+                            <p class="stat-label">Avg Attendance</p>
+                            <h3 class="stat-value" id="avg-attendance">0%</h3>
+                            <p class="stat-change">This semester</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon teacher-bg">
+                            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                        </div>
+                        <div class="stat-details">
+                            <p class="stat-label">Pending Tasks</p>
+                            <h3 class="stat-value">3</h3>
+                            <p class="stat-change">Marks to upload</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- My Courses & Recent Activity -->
+                <div class="content-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>My Courses</h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="courses-list" class="courses-list"></div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Quick Actions</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="quick-actions">
+                                <button class="action-btn" onclick="window.location.href='mark-attendance.html'">
+                                    <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                                    <span>Mark Attendance</span>
+                                </button>
+                                <button class="action-btn" onclick="window.location.href='upload-marks.html'">
+                                    <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                                    <span>Upload Marks</span>
+                                </button>
+                                <button class="action-btn" onclick="window.location.href='view-reports.html'">
+                                    <svg viewBox="0 0 24 24"><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line></svg>
+                                    <span>View Reports</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../data/mock-data.js"></script>
+    <script src="../js/storage.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/attendance.js"></script>
+    <script src="../js/ui.js"></script>
+    <script src="../js/utils.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth('teacher');
+            loadTeacherDashboard();
+        });
+
+        function loadTeacherDashboard() {
+            const user = getCurrentUser();
+            if (user) {
+                document.getElementById('teacher-name').textContent = user.firstName + ' ' + user.lastName;
+                document.getElementById('user-email').textContent = user.email;
+            }
+
+            const data = loadMockData();
+            const teacherCourses = data.courses.filter(c => c.teacherId === user.id);
+            
+            document.getElementById('my-courses').textContent = teacherCourses.length;
+            
+            // Calculate total students
+            let totalStudents = 0;
+            teacherCourses.forEach(course => {
+                const enrollments = data.enrollments.filter(e => e.courseId === course.id);
+                totalStudents += enrollments.length;
+            });
+            document.getElementById('total-students').textContent = totalStudents;
+
+            // Calculate average attendance
+            const attendance = calculateAverageAttendance(teacherCourses, data);
+            document.getElementById('avg-attendance').textContent = attendance + '%';
+
+            // Display courses
+            const coursesList = document.getElementById('courses-list');
+            coursesList.innerHTML = '';
+            teacherCourses.forEach(course => {
+                const enrollments = data.enrollments.filter(e => e.courseId === course.id);
+                const courseCard = document.createElement('div');
+                courseCard.className = 'course-card';
+                courseCard.innerHTML = `
+                    <div class="course-header">
+                        <h4>${course.code} - ${course.name}</h4>
+                        <span class="badge badge-success">${course.semester} ${course.academicYear}</span>
+                    </div>
+                    <p class="course-description">${course.description}</p>
+                    <div class="course-footer">
+                        <span>${enrollments.length} students enrolled</span>
+                        <span>${course.credits} credits</span>
+                    </div>
+                `;
+                coursesList.appendChild(courseCard);
+            });
+        }
+
+        function calculateAverageAttendance(courses, data) {
+            let totalPresent = 0;
+            let totalClasses = 0;
+
+            courses.forEach(course => {
+                const courseAttendance = data.attendance.filter(a => a.courseId === course.id);
+                totalClasses += courseAttendance.length;
+                totalPresent += courseAttendance.filter(a => a.status === 'present').length;
+            });
+
+            return totalClasses > 0 ? Math.round((totalPresent / totalClasses) * 100) : 0;
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('currentUser');
+                window.location.href = '../index.html';
+            }
+        }
+    </script>
+</body>
+</html>
